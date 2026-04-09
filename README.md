@@ -6,8 +6,7 @@ Reproducible code for Cultural Ecosystem Services (CES) classification and BERT-
 
 This repository accompanies the manuscript:
 
-> **Laura Costadone and Shan Zhang** (*in review*). *From Reviews to Value: Harnessing Crowdsourced Data to Capture Visitor Perceptions and Economic Benefits of Recreation
-*. *Ecosystems and People*.
+> **[Author list]** (*in review*). *[Manuscript title]*. *[Journal name]*.
 
 ---
 
@@ -19,6 +18,7 @@ This repository accompanies the manuscript:
 ├── 01_bert_sentiment.py                   # BERT sentiment classification (Python)
 ├── 02_ces_classification_visualization.R  # CES keyword scoring + Figure 1 (R)
 ├── 03_bert_sentiment_visualization.R      # Sentiment figures — Figures 2–3 (R)
+├── 04_tripadvisor_scraper.py              # TripAdvisor review scraper (Selenium)
 ├── data/
 │   ├── ces_scored_backbay.csv             # CES-scored reviews (input to all scripts)
 │   └── ces_scored_backbay_bert.csv        # BERT-enriched output (produced by Script 01)
@@ -47,6 +47,27 @@ Reviews were collected from four crowdsourced platforms:
 
 ## Methods overview
 
+### Script 04 — TripAdvisor data collection (Selenium)
+
+TripAdvisor reviews were collected using a custom Python script that automates browser interaction via Selenium. The script extracts five fields per review: date, title, reviewer location, star rating (1–5), and full review text. "Read more" buttons are clicked programmatically before extraction to ensure full text is retrieved. Pagination is handled automatically until all available reviews are collected.
+
+Output columns match the pipeline convention (`review_id`, `source`, `reviews`) for direct compatibility with Scripts 01–03.
+
+**Requirements:**
+
+```bash
+pip install selenium webdriver-manager pandas tqdm
+```
+
+Chrome must be installed. `webdriver-manager` downloads the matching ChromeDriver automatically.
+
+> **Terms of Service notice:** Automated data collection may be restricted by TripAdvisor's Terms of Service and `robots.txt`. This script was developed for academic research purposes. Review applicable terms before use and set `PAUSE_SECONDS` to a respectful crawl rate.
+
+**Citation for method:**
+> Mokgehle, S. L., & Fitchett, J. M. (2024). Use of TripAdvisor reviews as a data source for tourism and climate research. *Current Issues in Tourism*.
+
+---
+
 ### Script 02 — CES keyword classification
 
 Reviews are classified into six CES categories following CICES v5.1 and TEEB frameworks using regex-based keyword matching. Classification is multi-label: a single review may be assigned to more than one category.
@@ -73,12 +94,12 @@ The script auto-detects available hardware: Apple Silicon GPU (MPS), CUDA GPU, o
 
 ## Requirements
 
-### Python — Scripts 00 and 01
+### Python — Scripts 00, 01, and 04
 
 Python 3.9 or higher. Install dependencies:
 
 ```bash
-pip install transformers torch pandas tqdm
+pip install transformers torch pandas tqdm selenium webdriver-manager
 ```
 
 > The BERT model (~500 MB) downloads automatically on first run and is cached locally at `~/.cache/huggingface`. Subsequent runs use the cache.
@@ -97,6 +118,14 @@ install.packages(c("dplyr", "tidyr", "ggplot2", "forcats",
 ## How to reproduce
 
 ### Option A — Step by step (recommended)
+
+**Step 0: Collect TripAdvisor reviews (if not already collected)**
+
+```bash
+python 04_tripadvisor_scraper.py
+```
+
+Edit `TARGET_URL` and `OUTPUT_PATH` at the top of the script if needed. The script opens a Chrome window, navigates through all review pages, and saves `tripadvisor_backbay_raw.csv`. The `reviews` column in the output maps directly to the `reviews` column expected by Scripts 01–02.
 
 **Step 1: BERT sentiment classification**
 
