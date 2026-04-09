@@ -1,0 +1,29 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyc
+
+# Hugging Face model cache (large, re-downloaded automatically)
+.cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# R session files
+.Rhistory
+.RData
+.Rproj.user/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Output figures (optional — uncomment to exclude from repo)
+# figures/
+
+# Large data files (raw reviews not redistributed — see README)
+# data/ces_scored_backbay.csv
+# data/ces_scored_backbay_bert.csv
