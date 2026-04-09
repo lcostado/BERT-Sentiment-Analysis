@@ -6,7 +6,8 @@ Reproducible code for Cultural Ecosystem Services (CES) classification and BERT-
 
 This repository accompanies the manuscript:
 
-> **[Author list]** (*in review*). *[Manuscript title]*. *[Journal name]*.
+> **Laura Costadone and Shan Zhang** (*in review*). *From Reviews to Value: Harnessing Crowdsourced Data to Capture Visitor Perceptions and Economic Benefits of Recreation
+*. *Ecosystems and People*.
 
 ---
 
